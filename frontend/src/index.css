@@ -1,1 +1,75 @@
 @import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap");
+
+body {
+  font-family: "Outfit", sans-serif;
+}
+
+.hero-heading {
+  font-family: "Playfair Display", serif;
+}
+
+.animate-fade-up {
+  animation: fadeUp 1s ease-out forwards;
+}
+
+.animate-fade-up-delay {
+  animation: fadeUp 1.2s ease-out forwards;
+}
+
+.animate-gradient-text {
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.35em;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-45px);
+  animation: letterDrop 0.55s ease forwards;
+}
+
+@keyframes letterDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-45px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
