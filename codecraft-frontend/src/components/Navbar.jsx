@@ -49,9 +49,10 @@ function Navbar() {
     : "bg-white/90 border-gray-200 shadow-sm";
 
   return (
-    <nav className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${navBg}`}>
+    <nav
+      className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${navBg}`}
+    >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
@@ -62,7 +63,9 @@ function Navbar() {
         </Link>
 
         {/* Desktop Nav Links */}
-        <div className={`hidden md:flex items-center gap-7 text-sm md:text-[16px] font-medium ${navTextColor}`}>
+        <div
+          className={`hidden md:flex items-center gap-7 text-sm md:text-[16px] font-medium ${navTextColor}`}
+        >
           <Link to="/" className="hover:text-fuchsia-500 transition">
             Home
           </Link>
@@ -86,10 +89,19 @@ function Navbar() {
 
         {/* Desktop Right */}
         <div className="hidden md:flex items-center gap-4">
-        
           {user ? (
             <>
-              {/* Username Clickable */}
+              <Link
+                to="/create-blog"
+                className={`font-semibold transition ${
+                  darkMode
+                    ? "text-gray-300 hover:text-fuchsia-400"
+                    : "text-gray-700 hover:text-fuchsia-600"
+                }`}
+              >
+                Write Blog
+              </Link>
+
               <Link
                 to="/profile"
                 className={`font-semibold transition ${
@@ -108,26 +120,25 @@ function Navbar() {
                 Logout
               </button>
 
-              {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className={`h-11 w-20 rounded-full border flex items-center px-1 transition-all duration-300 ${
-              darkMode
-                ? "bg-slate-800 border-white/10 justify-end"
-                : "bg-gray-100 border-gray-300 justify-start"
-            }`}
-            title="Change theme"
-          >
-            <span
-              className={`h-9 w-9 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
-                darkMode
-                  ? "bg-gradient-to-r from-fuchsia-600 to-cyan-500 text-white"
-                  : "bg-white text-slate-900"
-              }`}
-            >
-              {darkMode ? "🌙" : "☀️"}
-            </span>
-          </button>
+              <button
+                onClick={toggleTheme}
+                className={`h-11 w-20 rounded-full border flex items-center px-1 transition-all duration-300 ${
+                  darkMode
+                    ? "bg-slate-800 border-white/10 justify-end"
+                    : "bg-gray-100 border-gray-300 justify-start"
+                }`}
+                title="Change theme"
+              >
+                <span
+                  className={`h-9 w-9 rounded-full flex items-center justify-center shadow-md transition-all duration-300 ${
+                    darkMode
+                      ? "bg-gradient-to-r from-fuchsia-600 to-cyan-500 text-white"
+                      : "bg-white text-slate-900"
+                  }`}
+                >
+                  {darkMode ? "🌙" : "☀️"}
+                </span>
+              </button>
             </>
           ) : (
             <>
@@ -154,8 +165,6 @@ function Navbar() {
 
         {/* Mobile Right */}
         <div className="md:hidden flex items-center gap-3">
-          
-          {/* Mobile Theme Toggle */}
           <button
             onClick={toggleTheme}
             className={`h-10 w-10 rounded-full flex items-center justify-center border transition ${
@@ -167,7 +176,6 @@ function Navbar() {
             {darkMode ? "🌙" : "☀️"}
           </button>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={`h-10 w-10 rounded-xl flex items-center justify-center border text-2xl transition ${
@@ -212,13 +220,19 @@ function Navbar() {
             </a>
 
             <div
-              className={`h-px ${
-                darkMode ? "bg-white/10" : "bg-gray-200"
-              }`}
+              className={`h-px ${darkMode ? "bg-white/10" : "bg-gray-200"}`}
             ></div>
 
             {user ? (
               <>
+                <Link
+                  to="/create-blog"
+                  onClick={() => setIsOpen(false)}
+                  className="text-fuchsia-400 font-semibold"
+                >
+                  Write Blog
+                </Link>
+
                 <Link
                   to="/profile"
                   onClick={() => setIsOpen(false)}

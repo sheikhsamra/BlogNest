@@ -22,6 +22,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/blogs", require("./routes/blogRoutes"));
 
 app.get("/", (req, res) => {
   res.send("Backend is running");

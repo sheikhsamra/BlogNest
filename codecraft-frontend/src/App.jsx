@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CreateBlog from "./pages/CreateBlog";
 
 function App() {
   return (
@@ -21,6 +22,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/create-blog"
+          element={
+            <ProtectedRoute>
+              <CreateBlog />
             </ProtectedRoute>
           }
         />
