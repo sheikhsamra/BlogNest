@@ -5,12 +5,16 @@ const cloudinary = require("../config/cloudinary");
 // CREATE BLOG
 const createBlog = async (req, res) => {
   try {
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
     const { title, category, content } = req.body;
     if (!title || !category || !content) {
+      console.log("Validation failed: Missing fields");
       return res.status(400).json({ message: "Title, category and content are required" });
     }
 
     if (!req.file) {
+      console.log("Validation failed: No file");
       return res.status(400).json({ message: "Blog image is required" });
     }
 
