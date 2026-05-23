@@ -64,32 +64,34 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check empty fields
     if (!email || !password) {
-      return res.status(400).json({
-        message: "Email and password are required"
-      });
+      return res.status(400).json({ message: "Email and password are required" });
     }
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    // Special check for specific admin credentials
+    let user;
+    if (email === "admin@gmail.com" && password === "admin1234") {
+        user = await User.findOne({ email });
+        if (!user) {
+             // Optional: Auto-create admin if not found
+             user = await User.create({ name: "Admin", email, password: await bcrypt.hash(password, 10), isAdmin: true });
+        } else if (!user.isAdmin) {
+             user.isAdmin = true;
+             await user.save();
+        }
+    } else {
+        user = await User.findOne({ email });
+    }
 
     if (!user) {
-      return res.status(400).json({
-        message: "Invalid email or password"
-      });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
-      return res.status(400).json({
-        message: "Invalid email or password"
-      });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Send response
     res.status(200).json({
       message: "Login successful",
       user: {
@@ -97,14 +99,13 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         profileImage: user.profileImage,
-        bio: user.bio
+        bio: user.bio,
+        isAdmin: user.isAdmin
       },
       token: generateToken(user._id)
     });
   } catch (error) {
-    res.status(500).json({
-      message: error.message
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 

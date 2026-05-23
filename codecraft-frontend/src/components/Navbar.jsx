@@ -82,7 +82,7 @@ function Navbar() {
             About
           </Link>
 
-          <Link to="/features" className="hover:text-cyan-500 transition">
+          <Link to="/features" className="hover:text-fuchsia-500 transition">
             Features
           </Link>
         </div>
@@ -101,6 +101,19 @@ function Navbar() {
               >
                 Write Blog
               </Link>
+
+              {user && user.isAdmin && (
+                <Link
+                  to="/admin"
+                  className={`font-semibold transition ${
+                    darkMode
+                      ? "text-gray-300 hover:text-red-400"
+                      : "text-gray-700 hover:text-red-600"
+                  }`}
+                >
+                  Admin
+                </Link>
+              )}
 
               <Link
                 to="/profile"

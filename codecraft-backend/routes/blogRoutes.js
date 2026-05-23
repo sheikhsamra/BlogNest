@@ -10,6 +10,9 @@ const {
   updateBlog,
   deleteBlog,
   addComment,
+  addReply,
+  deleteComment,
+  adminDeleteBlog,
   rateBlog,
   likeBlog,
   saveBlog,
@@ -27,6 +30,8 @@ router.get("/home", getHomeBlogs);
 
 // Admin route
 router.get("/admin/all-blogs", protect, adminProtect, getBlogs);
+router.delete("/admin/delete-blog/:id", protect, adminProtect, adminDeleteBlog);
+router.delete("/admin/comment/:blogId/:commentId", protect, adminProtect, deleteComment);
 
 // Protected routes
 router.get("/user/my-blogs", protect, getMyBlogs);
@@ -40,6 +45,7 @@ router.post("/", protect, upload.single("image"), createBlog);
 router.put("/:id", protect, upload.single("image"), updateBlog);
 router.delete("/:id", protect, deleteBlog);
 router.post("/:id/comments", protect, addComment);
+router.post("/:id/comments/:commentId/reply", protect, addReply);
 router.post("/:id/rating", protect, rateBlog);
 router.post("/:id/like", protect, likeBlog);
 router.post("/:id/save", protect, saveBlog);

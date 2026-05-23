@@ -14,6 +14,7 @@ import EditBlog from "./pages/EditBlog";
 import CategoryPage from "./pages/CategoryPage";
 import SavedBlogs from "./pages/SavedBlogs";
 import Features from "./pages/Features";
+import AdminDashboard from "./pages/AdminDashboard";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -26,10 +27,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/features" element={<Features />} />
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="/CategoryPage" element={<CategoryPage />} />
-        <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
 

@@ -39,6 +39,7 @@ const getSingleBlog = async (req, res) => {
     const blog = await Blog.findById(req.params.id)
       .populate("author", "name email")
       .populate("comments.user", "name email")
+      .populate("comments.replies.user", "name email")
       .populate("ratings.user", "name email")
       .populate("likes", "name email");
 
@@ -226,6 +227,34 @@ const addComment = async (req, res) => {
   }
 };
 
+// ADD REPLY
+const addReply = async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text) return res.status(400).json({ message: "Reply text is required" });
+
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    const comment = blog.comments.id(req.params.commentId);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
+
+    comment.replies.push({ user: req.user._id, text });
+    await blog.save();
+
+    const updatedBlog = await Blog.findById(req.params.id)
+      .populate("author", "name email")
+      .populate("comments.user", "name email")
+      .populate("comments.replies.user", "name email")
+      .populate("ratings.user", "name email")
+      .populate("likes", "name email");
+
+    res.status(201).json({ message: "Reply added successfully", blog: updatedBlog });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // RATE BLOG
 const rateBlog = async (req, res) => {
   try {
@@ -254,6 +283,36 @@ const rateBlog = async (req, res) => {
   }
 };
 
+// DELETE COMMENT
+const deleteComment = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.blogId);
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    blog.comments = blog.comments.filter(
+      (comment) => comment._id.toString() !== req.params.commentId
+    );
+    await blog.save();
+
+    res.status(200).json({ message: "Comment deleted successfully", blog });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// DELETE BLOG (Admin Only)
+const adminDeleteBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+
+    await blog.deleteOne();
+    res.status(200).json({ message: "Blog deleted successfully by Admin" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createBlog,
   getBlogs,
@@ -262,7 +321,10 @@ module.exports = {
   getMyBlogs,
   updateBlog,
   deleteBlog,
+  adminDeleteBlog,
   addComment,
+  addReply,
+  deleteComment,
   rateBlog,
   likeBlog,
   saveBlog,
